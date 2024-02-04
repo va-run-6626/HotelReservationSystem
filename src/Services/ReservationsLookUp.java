@@ -1,21 +1,19 @@
 package Services;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 
 public class ReservationsLookUp {
-    private final Statement statement;
+    private final Connection connection;
     private final Scanner sc;
-    public ReservationsLookUp (Statement statement,Scanner sc){
-        this.statement = statement;
+    public ReservationsLookUp (Connection connection,Scanner sc){
+        this.connection = connection;
         this.sc = sc;
     }
     public void lookUp() throws SQLException{
         String query = "SELECT reservationID, guestName, roomNo, contactNumber, reservationDate FROM reservations";
-            ResultSet resultSet = this.statement.executeQuery(query);
+        Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
             System.out.println("Current Reservations: ");
             System.out.println("+----------------+-----------------+---------------+----------------------+------------------------+");
             System.out.println("| reservationID  |    guestName    |    roomNo     |     contactNumber    |     reservationDate    |");
@@ -37,8 +35,13 @@ public class ReservationsLookUp {
         System.out.print("Enter guest name: ");
         String name = this.sc.next();
 
-        String query = "SELECT roomNo FROM reservations WHERE reservationID = "+reservationId+" AND guestName = '"+ name + "';";
-        ResultSet resultSet = this.statement.executeQuery(query);
+        String query = "SELECT roomNo FROM reservations WHERE reservationID = ? AND guestName = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setInt(1,reservationId);
+        preparedStatement.setString(2,name);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()){
             int roomNo = resultSet.getInt("roomNo");
             System.out.println("Room number for Reservation ID : " + reservationId +" and Guest : "+ name + " is --> " + roomNo);

@@ -1,18 +1,19 @@
 package Services;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
 public class StartApplication {
-    private final Statement statement;
-    public StartApplication(Statement statement){
-        this.statement = statement;
+    private final Connection connection;
+    public StartApplication(Connection connection){
+        this.connection = connection;
     }
     public void startApplication(){
         try{
             Scanner sc = new Scanner(System.in);
-            ReservationServices reservationServices = new ReservationServices(this.statement, sc);
+            ReservationServices reservationServices = new ReservationServices(this.connection, sc);
             CloseApplication closeApplication = new CloseApplication();
             while(true){
                 System.out.println();

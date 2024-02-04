@@ -10,7 +10,7 @@ public class HotelReservationSystem{
     public HotelReservationSystem() throws SQLException, ClassNotFoundException {
         this.database = new DataBase();
         this.database.initalizeDatabase();
-        StartApplication startApplication = new StartApplication(database.getStatement());
+        StartApplication startApplication = new StartApplication(database.getConnection());
         startApplication.startApplication();
         this.database.closeDatabase();
     }

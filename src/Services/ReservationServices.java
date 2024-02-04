@@ -1,5 +1,6 @@
 package Services;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -10,11 +11,11 @@ public class ReservationServices {
     private UpdateReservation updateReservation;
     private DeleteReservation deleteReservation;
 
-    public ReservationServices(Statement statement, Scanner scanner){
-        this.reserveRoom = new ReserveRoom(statement,scanner);
-        this.reservationsLookUp = new ReservationsLookUp(statement,scanner);
-        this.updateReservation = new UpdateReservation(statement,scanner);
-        this.deleteReservation = new DeleteReservation(statement,scanner);
+    public ReservationServices(Connection connection, Scanner scanner){
+        this.reserveRoom = new ReserveRoom(connection,scanner);
+        this.reservationsLookUp = new ReservationsLookUp(connection,scanner);
+        this.updateReservation = new UpdateReservation(connection,scanner);
+        this.deleteReservation = new DeleteReservation(connection,scanner);
     }
     public void allotRoom()throws SQLException {
         this.reserveRoom.allotRoom();

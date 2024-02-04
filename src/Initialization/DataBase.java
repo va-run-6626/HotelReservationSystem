@@ -1,9 +1,6 @@
 package Initialization;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DataBase {
     private static final String url = "jdbc:mysql://localhost:3306/hotelDB";
@@ -11,17 +8,8 @@ public class DataBase {
     private static final String password = "varun";
 
     private Connection connection;
-    private Statement statement;
     public void initalizeDatabase() throws SQLException, ClassNotFoundException {
         setConnection();
-        setStatement();
-    }
-    private void setStatement()throws SQLException {
-        try{
-            this.statement = this.connection.createStatement();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
     }
     private void setConnection() throws SQLException, ClassNotFoundException{
         try{
@@ -35,12 +23,11 @@ public class DataBase {
             e.printStackTrace();
         }
     }
-    public Statement getStatement(){
-        return this.statement;
+    public Connection getConnection(){
+        return this.connection;
     }
     public void closeDatabase(){
         try{
-            this.statement.close();
             this.connection.close();
         }catch (SQLException e){
             e.printStackTrace();

@@ -1,16 +1,15 @@
 package Services;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class UpdateReservation extends ReservationExists{
-    private final Statement statement;
+    private final Connection connection;
     private final Scanner scanner;
-    public UpdateReservation(Statement statement, Scanner scanner){
-        super(statement);
-        this.statement = statement;
+    public UpdateReservation(Connection connection, Scanner scanner){
+        super(connection);
+        this.connection = connection;
         this.scanner = scanner;
     }
     public void update()throws SQLException{
@@ -28,8 +27,15 @@ public class UpdateReservation extends ReservationExists{
         System.out.print("Enter new Contact Number :");
         String contactNumber = this.scanner.next();
 
-        String query = "UPDATE reservations SET guestName = '"+name+"', roomNo = "+roomNo+", contactNumber = '"+ contactNumber+"' "+"WHERE reservationID = "+ reservationID+";";
-        int affectedRows = this.statement.executeUpdate(query);
+        String query = "UPDATE reservations SET guestName = ?, roomNo = ?, contactNumber = ? WHERE reservationID = ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1,name);
+        preparedStatement.setInt(2,roomNo);
+        preparedStatement.setString(3,contactNumber);
+        preparedStatement.setInt(4,reservationID);
+
+        int affectedRows = preparedStatement.executeUpdate();
         if(affectedRows > 0){
             System.out.println("Reservation Updates Successfully !!!");
         }else{
