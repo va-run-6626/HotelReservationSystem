@@ -1,0 +1,11 @@
+Database Schema
+
+Database Name -> hotelDB
+Table Name -> reservations
+
+Schema
+    reservationID INT AUTO_INCREMENT
+    guestName VARCHAR(255) NOT NULL
+    roomNo INT NOT NULL
+    contactNumber VARCHAR(10) NOT NULL
+    reservationDate TIMESTAMP DEFAULT
